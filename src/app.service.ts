@@ -5,33 +5,37 @@ import { MailDto } from './dto/mail-dto';
 @Injectable()
 export class AppService {
   constructor(private mailerService: MailerService) { }
-  // async newMessage(messageDto: MailDto) {
-  // const { name, email, telefone, mensagem } = messageDto;
-  // this.mailerService.sendMail({
-  //   to: email, // list of receivers
-  //   from: 'Veroneze API', // sender address
-  //   subject: 'Formulário Recebido', // Subject line
-  //   template: '/email-confirmation',
-  //   html: `<div>
-  //   <p>Você recebeu uma nova mensagem de: ${name}</p>
-  //   <p>Mensagem: ${mensagem}</p>
-  //   <p>O E-mail para contato é: ${email}</p>
-  //   <p>O telefone para contato é: ${telefone}</p>
-  //   </div>`, // HTML body content
-  // });
-  // }
-
   public newMessage(messageDto: MailDto): void {
+    const { name, email, telefone, mensagem } = messageDto;
+
     this.mailerService
       .sendMail({
-        to: 'henriqueparedes@hotmail.com',
-        from: 'noreply@nestjs.com',
-        subject: 'Testing Nest Mailermodule with template ✔',
+        to: email,
+        from: 'Veroneze Advocacia',
+        subject: 'Recebemos sua mensagem',
         template: __dirname + '/confirmation',
         context: {
-          // Data to be sent to template engine.
-          name: 'cf1a3f828287',
-          url: 'john doe',
+          name: name,
+        },
+      })
+      .then((success) => {
+        console.log(success);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    this.mailerService
+      .sendMail({
+        to: 'jessica@veronezeadvocacia.com.br',
+        from: 'Veroneze Advocacia',
+        subject: 'Você recebeu uma nova mensagem',
+        template: __dirname + '/newMessage',
+        context: {
+          name: name,
+          mensagem: mensagem,
+          email: email,
+          telefone: telefone,
         },
       })
       .then((success) => {
