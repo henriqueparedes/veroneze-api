@@ -27,7 +27,7 @@ export class AppService {
 
     this.mailerService
       .sendMail({
-        to: 'jessica@veronezeadvocacia.com.br',
+        to: 'henriqueparedes@hotmail.com',
         from: 'Veroneze Advocacia',
         subject: 'Você recebeu uma nova mensagem',
         template: __dirname + '/newMessage',
